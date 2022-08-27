@@ -4,6 +4,7 @@ import br.ueg.modelo.application.enums.StatusArma;
 import br.ueg.modelo.application.model.Arma;
 import br.ueg.modelo.application.model.Cliente;
 import br.ueg.modelo.application.model.ModeloArma;
+import br.ueg.modelo.application.model.Usuario;
 import br.ueg.modelo.application.repository.ArmaRepository;
 import br.ueg.modelo.application.repository.ClienteRepository;
 import br.ueg.modelo.application.repository.ModeloArmaRepository;
@@ -46,6 +47,24 @@ public class ArmaService {
         arma.setDataSaida(LocalDate.now());
         armaRepository.save(arma);
     }
+
+    public void atualizar(Arma arma, Long idArma, Long idCliente, Long idModeloArma) {
+        Arma armaAntiga = armaRepository.buscarPorId(idArma);
+        alterarCampos(armaAntiga,arma, idCliente,idArma);
+        armaRepository.save(armaAntiga);
+
+    }
+
+    private void alterarCampos(Arma armaAntiga, Arma arma, Long idCliente, Long idModeloArma) {
+        Cliente cliente = clienteRepository.buscarPorId(idCliente);
+        ModeloArma modeloArma = modeloArmaRepository.buscarPorId(idModeloArma);
+        armaAntiga.setModeloArma(modeloArma);
+        armaAntiga.setCliente(cliente);
+        armaAntiga.setCor(arma.getCor());
+        armaAntiga.setSerie(arma.getSerie());
+        armaAntiga.setStatus(arma.getStatus());
+    }
+
     public List<Arma> buscarTodas() {
         return armaRepository.findAll();
     }

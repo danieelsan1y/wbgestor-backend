@@ -3,6 +3,7 @@ package br.ueg.modelo.application.controller;
 import br.ueg.modelo.application.dto.*;
 import br.ueg.modelo.application.mapper.ArmaMapper;
 import br.ueg.modelo.application.model.Arma;
+import br.ueg.modelo.application.model.ModeloArma;
 import br.ueg.modelo.application.service.ArmaService;
 import br.ueg.modelo.comum.exception.MessageResponse;
 import io.swagger.annotations.Api;
@@ -89,6 +90,21 @@ public class ArmaController {
         List<Arma> armas = armaService.buscarTodas();
         List<ArmaListarDTO> armaListarDTOS = armaMapper.toArmaDTOList(armas);
         return ResponseEntity.ok().body(armaListarDTOS);
+    }
+
+    @PreAuthorize("hasRole('ROLE_GERENCIARARMA_ALTERAR')")
+    @PutMapping(path = "/{id:[\\d]+}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Alteração de Arma.",
+            notes = "Alterar Arma.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = ModeloArmaDTO.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
+            @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
+    })
+    public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody ArmaAtualizarDTO armaAtualizarDTO) {
+        Arma arma = armaMapper.ArmaAtualizarDTOToArma(armaAtualizarDTO);
+        armaService.atualizar(arma,id, armaAtualizarDTO.getCliente(), armaAtualizarDTO.getModeloArma());
+        return ResponseEntity.ok().build();
     }
 
 
