@@ -77,7 +77,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
         Modulo moduloTipoAmigo = createModuloTipoAmigo();
 
-        Modulo moduloAmigo = createModuloAmigo();
+        Modulo moduloArma = createModuloArma();
 
         Modulo moduloModeloArma = createModuloModeloArma();
 
@@ -87,7 +87,8 @@ public class AppStartupRunner implements ApplicationRunner {
 
         Modulo moduloSaidaArma = createModuloSaidaArma();
 
-        Grupo grupo = createGrupoAdmin(Arrays.asList(moduloUsuario, moduloGrupo,moduloTipoAmigo, moduloAmigo,
+
+        Grupo grupo = createGrupoAdmin(Arrays.asList(moduloUsuario, moduloGrupo,moduloTipoAmigo, moduloArma,
                 moduloModeloArma, moduloCliente, moduloEntradaArma, moduloSaidaArma));
 
         createUsuarioAdmin(grupo);
@@ -295,6 +296,32 @@ public class AppStartupRunner implements ApplicationRunner {
         return moduloEntradaArma;
     }
 
+    private Modulo createModuloTeafegarArmas() {
+        Modulo moduloOperacaoArma = new Modulo();
+
+        moduloOperacaoArma.setMnemonico("TRAFEGARARMAS");
+        moduloOperacaoArma.setNome("Trafegar Armas");
+        moduloOperacaoArma.setStatus(StatusAtivoInativo.ATIVO);
+        moduloOperacaoArma = moduloRepository.save(moduloOperacaoArma);
+
+        Set<Funcionalidade> funcionalidades = new HashSet<>();
+
+        Funcionalidade fManter = new Funcionalidade();
+        fManter.setMnemonico("OPERACAO");
+        fManter.setNome("Status e Cliente");
+        fManter.setStatus(StatusAtivoInativo.ATIVO);
+        funcionalidades.add(fManter);
+
+        for(Funcionalidade funcionalidade: funcionalidades){
+            funcionalidade.setModulo(moduloOperacaoArma);
+        }
+
+        moduloOperacaoArma.setFuncionalidades(funcionalidades);
+        moduloOperacaoArma = moduloRepository.save(moduloOperacaoArma);
+
+        return moduloOperacaoArma;
+    }
+
     private Modulo createModuloSaidaArma() {
         Modulo moduloSaidaArma = new Modulo();
 
@@ -306,26 +333,8 @@ public class AppStartupRunner implements ApplicationRunner {
         Set<Funcionalidade> funcionalidades = new HashSet<>();
 
         Funcionalidade fManter = new Funcionalidade();
-        fManter.setMnemonico("PESQUISAR");
-        fManter.setNome("Pesquisar");
-        fManter.setStatus(StatusAtivoInativo.ATIVO);
-        funcionalidades.add(fManter);
-
-        fManter = new Funcionalidade();
-        fManter.setMnemonico("VISUALIZAR");
-        fManter.setNome("Visualizar");
-        fManter.setStatus(StatusAtivoInativo.ATIVO);
-        funcionalidades.add(fManter);
-
-        fManter = new Funcionalidade();
-        fManter.setMnemonico("OPERACAO");
-        fManter.setNome("Trafegar armas");
-        fManter.setStatus(StatusAtivoInativo.ATIVO);
-        funcionalidades.add(fManter);
-
-        fManter = new Funcionalidade();
         fManter.setMnemonico("SAIDA");
-        fManter.setNome("Saída de armas");
+        fManter.setNome("Saida");
         fManter.setStatus(StatusAtivoInativo.ATIVO);
         funcionalidades.add(fManter);
 
@@ -339,44 +348,47 @@ public class AppStartupRunner implements ApplicationRunner {
         return moduloSaidaArma;
     }
 
+
     /**
      * Cria o Modulo de amigo e salva.
      * @return tipo amigo salvo no banco.
      */
-    private Modulo createModuloAmigo() {
-        Modulo moduloAmigo = new Modulo();
+    private Modulo createModuloArma() {
+        Modulo moduloArma = new Modulo();
+        moduloArma.setMnemonico("GERENCIARARMA");
+        moduloArma.setNome("Gerenciamento de Armas");
+        moduloArma.setStatus(StatusAtivoInativo.ATIVO);
+        moduloArma = moduloRepository.save(moduloArma);
 
-        moduloAmigo.setMnemonico("AMIGO");
-        moduloAmigo.setNome("Manter Amigo ");
-        moduloAmigo.setStatus(StatusAtivoInativo.ATIVO);
-        moduloAmigo = moduloRepository.save(moduloAmigo);
-
-        Set<Funcionalidade> funcionalidades = getFuncionalidadesCrud().stream()
-                .filter(
-                        funcionalidade -> !funcionalidade.getMnemonico().equals("ATIVAR_INATIVAR")
-                ).collect(Collectors.toSet());
+        Set<Funcionalidade> funcionalidades = new HashSet<>();
 
         Funcionalidade fManter = new Funcionalidade();
-        fManter.setMnemonico("REMOVER");
-        fManter.setNome("Remover");
+        fManter.setMnemonico("VISUALIZAR");
+        fManter.setNome("Visualizar");
         fManter.setStatus(StatusAtivoInativo.ATIVO);
         funcionalidades.add(fManter);
 
-        Funcionalidade fAmigo = new Funcionalidade();
-        fAmigo.setMnemonico("STATUS");
-        fAmigo.setNome("É Amigo");
-        fAmigo.setStatus(StatusAtivoInativo.ATIVO);
-        funcionalidades.add(fAmigo);
+        fManter = new Funcionalidade();
+        fManter.setMnemonico("PESQUISAR");
+        fManter.setNome("Pesquisar");
+        fManter.setStatus(StatusAtivoInativo.ATIVO);
+        funcionalidades.add(fManter);
+
+        fManter = new Funcionalidade();
+        fManter.setMnemonico("ALTERAR");
+        fManter.setNome("Alterar");
+        fManter.setStatus(StatusAtivoInativo.ATIVO);
+        funcionalidades.add(fManter);
 
 
         for(Funcionalidade funcionalidade: funcionalidades){
-            funcionalidade.setModulo(moduloAmigo);
+            funcionalidade.setModulo(moduloArma);
         }
 
-        moduloAmigo.setFuncionalidades(funcionalidades);
-        moduloAmigo = moduloRepository.save(moduloAmigo);
+        moduloArma.setFuncionalidades(funcionalidades);
+        moduloArma = moduloRepository.save(moduloArma);
 
-        return moduloAmigo;
+        return moduloArma;
     }
 
     private void createUsuarioAdmin(Grupo grupo) {

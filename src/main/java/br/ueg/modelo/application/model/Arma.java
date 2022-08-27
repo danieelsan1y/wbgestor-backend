@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tb_arma")
 @ToString
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy")
 public class Arma {
 
 
@@ -27,11 +28,9 @@ public class Arma {
     @Column(name = "cor_arma")
     private String cor;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy")
     @Column(name = "data_entrada_arma")
     private LocalDate dataEntrada;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy")
     @Column(name = "data_saida_arma")
     private LocalDate dataSaida;
 
