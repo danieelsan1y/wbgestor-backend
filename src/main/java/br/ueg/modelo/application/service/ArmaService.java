@@ -33,7 +33,7 @@ public class ArmaService {
         armaRepository.save(arma);
     }
 
-    public void gerir(Long id, StatusArma statusArma, Long idCliente) {
+    public void trafegar(Long id, StatusArma statusArma, Long idCliente) {
         Arma armaAntiga = armaRepository.buscarPorId(id);
         armaAntiga.setStatus(statusArma);
         Cliente cliente = clienteRepository.buscarPorId(idCliente);

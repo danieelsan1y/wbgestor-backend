@@ -1,8 +1,6 @@
 package br.ueg.modelo.application.service;
 
-import br.ueg.modelo.application.enums.StatusSimNao;
 import br.ueg.modelo.application.exception.SistemaMessageCode;
-import br.ueg.modelo.application.model.Amigo;
 import br.ueg.modelo.application.model.Cases;
 import br.ueg.modelo.application.repository.CasesRepository;
 import br.ueg.modelo.comum.exception.BusinessException;

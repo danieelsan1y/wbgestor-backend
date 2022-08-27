@@ -3,7 +3,6 @@ package br.ueg.modelo.application.controller;
 import br.ueg.modelo.api.util.Validation;
 import br.ueg.modelo.application.dto.CasesDTO;
 import br.ueg.modelo.application.mapper.CasesMapper;
-import br.ueg.modelo.application.model.Amigo;
 import br.ueg.modelo.application.model.Cases;
 import br.ueg.modelo.application.service.CasesService;
 import br.ueg.modelo.comum.exception.MessageResponse;

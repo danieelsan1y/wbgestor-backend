@@ -1,7 +1,6 @@
 package br.ueg.modelo.application.controller;
 
 
-import br.ueg.modelo.application.dto.AmigoDTO;
 import br.ueg.modelo.application.dto.ClienteCriarDTO;
 import br.ueg.modelo.application.dto.ClienteListarDTO;
 import br.ueg.modelo.application.mapper.ClienteMapper;
@@ -13,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +35,7 @@ public class ClienteController {
     @ApiOperation(value = "Inclusão de Cliente.",
             notes = "Incluir Cliente.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ClienteCriarDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
@@ -52,7 +50,7 @@ public class ClienteController {
     @ApiOperation(value = "Visualizar Cliente.",
             notes = "Visualizar Cliente.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ClienteListarDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
@@ -68,7 +66,7 @@ public class ClienteController {
     @ApiOperation(value = "Pesquisar Cliente.",
             notes = "Pesquisar Cliente.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ClienteListarDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
@@ -83,7 +81,7 @@ public class ClienteController {
     @ApiOperation(value = "Alteração Cliente.",
             notes = "Alterar Cliente.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ClienteCriarDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
@@ -99,7 +97,7 @@ public class ClienteController {
     @ApiOperation(value = "Inativar Cliente.",
             notes = "Inativação Cliente.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ClienteCriarDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
@@ -113,7 +111,7 @@ public class ClienteController {
     @ApiOperation(value = "Ativar Cliente.",
             notes = "Ativação Status Cliente.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ClienteCriarDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })

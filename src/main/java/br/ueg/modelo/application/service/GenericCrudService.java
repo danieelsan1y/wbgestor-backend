@@ -1,8 +1,6 @@
 package br.ueg.modelo.application.service;
 
 import br.ueg.modelo.application.exception.SistemaMessageCode;
-import br.ueg.modelo.application.model.Amigo;
-import br.ueg.modelo.application.model.TipoAmigo;
 import br.ueg.modelo.comum.exception.BusinessException;
 import br.ueg.modelo.comum.util.CollectionUtil;
 import br.ueg.modelo.comum.util.ReflexaoModel;

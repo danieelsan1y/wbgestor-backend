@@ -1,7 +1,6 @@
 package br.ueg.modelo.application.controller;
 
 
-import br.ueg.modelo.application.dto.AmigoDTO;
 import br.ueg.modelo.application.dto.ModeloArmaDTO;
 import br.ueg.modelo.application.dto.ModeloArmaListarDTO;
 import br.ueg.modelo.application.mapper.ModeloArmaMapper;
@@ -13,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,7 +37,7 @@ public class ModeloArmaController {
     @ApiOperation(value = "Inclusão de ModeloArma.",
             notes = "Incluir ModeloArma.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ModeloArmaDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
@@ -54,7 +52,7 @@ public class ModeloArmaController {
     @ApiOperation(value = "Visualizar ModeloArma.",
             notes = "Visualizar ModeloArma.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ModeloArmaListarDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
@@ -70,7 +68,7 @@ public class ModeloArmaController {
     @ApiOperation(value = "Alteração ModeloArma.",
             notes = "Alterar ModeloArma.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ModeloArmaDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
@@ -85,7 +83,7 @@ public class ModeloArmaController {
     @ApiOperation(value = "Pesquisar ModeloArma.",
             notes = "Pesquisar ModeloArma.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AmigoDTO.class),
+            @ApiResponse(code = 200, message = "Success", response = ModeloArmaListarDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
             @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
     })
