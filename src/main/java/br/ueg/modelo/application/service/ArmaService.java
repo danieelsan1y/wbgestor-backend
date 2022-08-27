@@ -58,6 +58,9 @@ public class ArmaService {
     private void alterarCampos(Arma armaAntiga, Arma arma, Long idCliente, Long idModeloArma) {
         Cliente cliente = clienteRepository.buscarPorId(idCliente);
         ModeloArma modeloArma = modeloArmaRepository.buscarPorId(idModeloArma);
+        if(arma.getStatus() == StatusArma.DISPONIVEL) {
+            armaAntiga.setDataSaida(null);
+        }
         armaAntiga.setModeloArma(modeloArma);
         armaAntiga.setCliente(cliente);
         armaAntiga.setCor(arma.getCor());
