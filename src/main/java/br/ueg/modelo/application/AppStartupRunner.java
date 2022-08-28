@@ -292,6 +292,12 @@ public class AppStartupRunner implements ApplicationRunner {
         fManter.setStatus(StatusAtivoInativo.ATIVO);
         funcionalidades.add(fManter);
 
+        fManter = new Funcionalidade();
+        fManter.setMnemonico("VENDIDASEMESTOQUE");
+        fManter.setNome("Vendidas em Estoque");
+        fManter.setStatus(StatusAtivoInativo.ATIVO);
+        funcionalidades.add(fManter);
+
         for(Funcionalidade funcionalidade: funcionalidades){
             funcionalidade.setModulo(moduloSaidaArma);
         }

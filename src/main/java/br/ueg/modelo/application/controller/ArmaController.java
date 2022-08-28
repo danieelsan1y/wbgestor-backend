@@ -123,4 +123,19 @@ public class ArmaController {
         return ResponseEntity.ok().body(armaListarDTOS);
     }
 
+    @PreAuthorize("hasRole('ROLE_SAIDAARMA_VENDIDASEMESTOQUE')")
+    @GetMapping(path = "/vendidas",produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ApiOperation(value = "Visualizar Arma.",
+            notes = "Visualizar Arma.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = ArmaListarDTO.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = MessageResponse.class),
+            @ApiResponse(code = 404, message = "Not Found", response = MessageResponse.class)
+    })
+    public ResponseEntity<List<ArmaListarDTO>> buscarArmasVendidasEmEstoque() {
+        List<Arma> armas = armaService.buscarArmasVendidasEmEstoque();
+        List<ArmaListarDTO> armaListarDTOS = armaMapper.toArmaDTOList(armas);
+        return ResponseEntity.ok().body(armaListarDTOS);
+    }
+
 }

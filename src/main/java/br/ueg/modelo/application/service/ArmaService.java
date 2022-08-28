@@ -75,4 +75,8 @@ public class ArmaService {
     public Arma buscarPorId(Long id) {
         return armaRepository.buscarPorId(id);
     }
+
+    public List<Arma> buscarArmasVendidasEmEstoque() {
+        return armaRepository.buscarArmasVendidasEmEstoque();
+    }
 }
