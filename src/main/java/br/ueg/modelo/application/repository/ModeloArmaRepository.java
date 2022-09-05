@@ -9,4 +9,6 @@ public interface ModeloArmaRepository extends JpaRepository<ModeloArma,Long> {
 
     @Query("SELECT m FROM ModeloArma m WHERE m.id = :id")
     public ModeloArma buscarPorId(@Param("id") Long id);
+
+    public ModeloArma findByModelo(String modelo);
 }

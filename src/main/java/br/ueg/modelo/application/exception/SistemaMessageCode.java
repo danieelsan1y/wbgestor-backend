@@ -62,12 +62,23 @@ public enum SistemaMessageCode implements MessageCode {
 	ERRO_DATA_INICIAL_MAIOR_DATA_FINAL("MSG-044", 400),
 	ERRO_DATA_FILTRO_FUTURA("MSG-020",400),
 
+
+
 	ERRO_TAMANHO_INSUFICIENTE_FILTRO_TIPOAMIGO("MSG-021", 400),
 
 	ERRO_TIPO_AMIGO_DUPLICADO("MSG-045",400),
 
 	ERRO_AMIGO_DUPLICADO("MSG-046", 400),
-            ;
+
+	ERRO_MODELO_EXISTENTE("MSG-047",400)
+
+
+
+
+
+	;
+
+
 
 	private final String code;
 
