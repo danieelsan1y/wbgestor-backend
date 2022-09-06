@@ -70,7 +70,8 @@ public enum SistemaMessageCode implements MessageCode {
 
 	ERRO_AMIGO_DUPLICADO("MSG-046", 400),
 
-	ERRO_MODELO_EXISTENTE("MSG-047",400)
+	ERRO_MODELO_EXISTENTE("MSG-047",400),
+
 
 
 

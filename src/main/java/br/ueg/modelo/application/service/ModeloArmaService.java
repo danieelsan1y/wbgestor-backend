@@ -3,6 +3,7 @@ package br.ueg.modelo.application.service;
 import br.ueg.modelo.application.exception.SistemaMessageCode;
 import br.ueg.modelo.application.model.ModeloArma;
 import br.ueg.modelo.application.repository.ModeloArmaRepository;
+import br.ueg.modelo.application.service.validate.ModeloArmaValidate;
 import br.ueg.modelo.comum.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,9 @@ public class ModeloArmaService {
     ModeloArmaRepository modeloArmaRepository;
 
     public void criar(ModeloArma modeloArma) {
-        modeloExistente(modeloArma.getModelo());
+        verificarSeNaoExisteModeloArma(modeloArma.getModelo());
+        ModeloArmaValidate.verificarCamposEmBranco(modeloArma);
+        ModeloArmaValidate.verificarCamposNulos(modeloArma);
         modeloArmaRepository.save(modeloArma);
     }
 
@@ -47,7 +50,7 @@ public class ModeloArmaService {
     }
 
 
-    private void modeloExistente(String modelo) {
+    private void verificarSeNaoExisteModeloArma(String modelo) {
         ModeloArma modeloArma = modeloArmaRepository.findByModelo(modelo);
         if(modeloArma != null) {
             throw new BusinessException(SistemaMessageCode.ERRO_MODELO_EXISTENTE);
