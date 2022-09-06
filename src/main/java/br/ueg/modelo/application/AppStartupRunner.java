@@ -70,8 +70,6 @@ public class AppStartupRunner implements ApplicationRunner {
 
         Modulo moduloGrupo = createModuloCrud("GRUPO", "Manter Grupo");
 
-        Modulo moduloTipoAmigo = createModuloTipoAmigo();
-
         Modulo moduloArma = createModuloArma();
 
         Modulo moduloTrafegarArmas = createModuloTeafegarArmas();
@@ -85,7 +83,7 @@ public class AppStartupRunner implements ApplicationRunner {
         Modulo moduloSaidaArma = createModuloSaidaArma();
 
 
-        Grupo grupo = createGrupoAdmin(Arrays.asList(moduloUsuario, moduloGrupo,moduloTipoAmigo, moduloArma,moduloTrafegarArmas,
+        Grupo grupo = createGrupoAdmin(Arrays.asList(moduloUsuario, moduloGrupo, moduloArma,moduloTrafegarArmas,
                 moduloModeloArma, moduloCliente, moduloEntradaArma, moduloSaidaArma));
 
         createUsuarioAdmin(grupo);
@@ -100,35 +98,7 @@ public class AppStartupRunner implements ApplicationRunner {
      * Cria o Modulo de tipo de amigo e salva.
      * @return tipo amigo salvo no banco.
      */
-    private Modulo createModuloTipoAmigo() {
-        Modulo moduloTipoAmigo = new Modulo();
 
-        moduloTipoAmigo.setMnemonico("TIPOAMIGO");
-        moduloTipoAmigo.setNome("Manter Tipo Amigo ");
-        moduloTipoAmigo.setStatus(StatusAtivoInativo.ATIVO);
-        moduloTipoAmigo = moduloRepository.save(moduloTipoAmigo);
-
-        Set<Funcionalidade> funcionalidades = getFuncionalidadesCrud().stream()
-                .filter(
-                        funcionalidade -> !funcionalidade.getMnemonico().equals("ATIVAR_INATIVAR")
-                ).collect(Collectors.toSet());
-
-        Funcionalidade fManter = new Funcionalidade();
-        fManter.setMnemonico("REMOVER");
-        fManter.setNome("Remover");
-        fManter.setStatus(StatusAtivoInativo.ATIVO);
-        funcionalidades.add(fManter);
-
-
-        for(Funcionalidade funcionalidade: funcionalidades){
-            funcionalidade.setModulo(moduloTipoAmigo);
-        }
-
-        moduloTipoAmigo.setFuncionalidades(funcionalidades);
-        moduloTipoAmigo = moduloRepository.save(moduloTipoAmigo);
-
-        return moduloTipoAmigo;
-    }
 
     private Modulo createModuloModeloArma() {
         Modulo moduloModeloArma = new Modulo();
@@ -228,7 +198,7 @@ public class AppStartupRunner implements ApplicationRunner {
         Modulo moduloEntradaArma = new Modulo();
 
         moduloEntradaArma.setMnemonico("ENTRADAARMA");
-        moduloEntradaArma.setNome("Entrada de Armas");
+        moduloEntradaArma.setNome("Entrada");
         moduloEntradaArma.setStatus(StatusAtivoInativo.ATIVO);
         moduloEntradaArma = moduloRepository.save(moduloEntradaArma);
 
@@ -236,7 +206,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
         Funcionalidade fManter = new Funcionalidade();
         fManter.setMnemonico("INCLUIR");
-        fManter.setNome("Dar entrada");
+        fManter.setNome("Realizar Entrada");
         fManter.setStatus(StatusAtivoInativo.ATIVO);
         funcionalidades.add(fManter);
 
@@ -262,7 +232,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
         Funcionalidade fManter = new Funcionalidade();
         fManter.setMnemonico("OPERACAO");
-        fManter.setNome("Status e Cliente");
+        fManter.setNome("Operar");
         fManter.setStatus(StatusAtivoInativo.ATIVO);
         funcionalidades.add(fManter);
 
@@ -288,13 +258,13 @@ public class AppStartupRunner implements ApplicationRunner {
 
         Funcionalidade fManter = new Funcionalidade();
         fManter.setMnemonico("SAIDA");
-        fManter.setNome("Saida");
+        fManter.setNome("Realizar Saída");
         fManter.setStatus(StatusAtivoInativo.ATIVO);
         funcionalidades.add(fManter);
 
         fManter = new Funcionalidade();
         fManter.setMnemonico("VENDIDASEMESTOQUE");
-        fManter.setNome("Vendidas em Estoque");
+        fManter.setNome("Visualizar");
         fManter.setStatus(StatusAtivoInativo.ATIVO);
         funcionalidades.add(fManter);
 
