@@ -18,6 +18,8 @@ public class ClienteListarDTO {
     private String cpf;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataDeNacimento;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate validadeCR;
     private String endereco;
     private String telefone;
     private String cr;
