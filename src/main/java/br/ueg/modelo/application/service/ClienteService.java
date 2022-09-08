@@ -4,13 +4,13 @@ import br.ueg.modelo.application.enums.StatusCliente;
 import br.ueg.modelo.application.exception.SistemaMessageCode;
 import br.ueg.modelo.application.model.Cliente;
 import br.ueg.modelo.application.repository.ClienteRepository;
+import br.ueg.modelo.application.service.validate.ClienteValidate;
 import br.ueg.modelo.comum.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,9 +19,30 @@ public class ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
 
-    public void criar (Cliente cliente) {
+    public void criar(Cliente cliente) {
+        ClienteValidate.validarCamposNulos(cliente);
+        ClienteValidate.validarCamposEmBranco(cliente);
+        retirarMascaraCpf(cliente);
+        retirarMascaraTelefone(cliente);
+
+        verificarCpfCadastrado(cliente.getCpf());
+
+        ClienteValidate.validarTelefone(cliente.getTelefone());
+        ClienteValidate.validarCpf(cliente.getCpf());
+        // ClienteValidate.validarData(cliente.getDataDeNacimento());
+
+        ClienteValidate.validarSeTelefoneTemLetras(cliente.getTelefone());
+        ClienteValidate.validarSeCpfTemLetra(cliente.getCpf());
+        // ClienteValidate.validarSeDataTemLetra(cliente.getDataDeNacimento());
+
         validarIdade(cliente.getDataDeNacimento());
+
         cliente.setStatusCliente(StatusCliente.ATIVO);
+
+        cliente.setCr(cliente.getCr().toUpperCase());
+        cliente.setNome(cliente.getNome().toUpperCase());
+        cliente.setEndereco(cliente.getEndereco().toUpperCase());
+
         clienteRepository.save(cliente);
     }
 
@@ -35,19 +56,35 @@ public class ClienteService {
     }
 
     public void atualizar(Long id, Cliente cliente) {
+        retirarMascaraCpf(cliente);
+        retirarMascaraTelefone(cliente);
+
+        if(cliente.getDataDeNacimento() != null) {
+            validarIdade(cliente.getDataDeNacimento());
+        }
+
         Cliente clienteAntigo = clienteRepository.buscarPorId(id);
-        alterarCampos(clienteAntigo,cliente);
+        alterarCampos(clienteAntigo, cliente);
         clienteRepository.save(clienteAntigo);
     }
 
     private void alterarCampos(Cliente clienteAntigo, Cliente cliente) {
-        clienteAntigo.setNome(cliente.getNome());
+
+        if (cliente.getCpf().toUpperCase().equals(clienteAntigo.getCpf().toUpperCase())) {
+
+        } else {
+            verificarCpfCadastrado(cliente.getCpf());
+        }
+        clienteAntigo.setNome(cliente.getNome().toUpperCase());
         clienteAntigo.setStatusCliente(cliente.getStatusCliente());
         clienteAntigo.setCpf(cliente.getCpf());
-        clienteAntigo.setDataDeNacimento(cliente.getDataDeNacimento());
-        clienteAntigo.setEndereco(cliente.getEndereco());
+        if(cliente.getDataDeNacimento() != null) {
+            validarIdade(cliente.getDataDeNacimento());
+            clienteAntigo.setDataDeNacimento(cliente.getDataDeNacimento());
+        }
+        clienteAntigo.setEndereco(cliente.getEndereco().toUpperCase());
         clienteAntigo.setTelefone(cliente.getTelefone());
-        clienteAntigo.setCr(cliente.getCr());
+        clienteAntigo.setCr(cliente.getCr().toUpperCase());
     }
 
     public void desativar(Long id) {
@@ -60,6 +97,14 @@ public class ClienteService {
         Cliente cliente = clienteRepository.buscarPorId(id);
         cliente.setStatusCliente(StatusCliente.ATIVO);
         clienteRepository.save(cliente);
+    }
+
+    private void verificarCpfCadastrado(String cpf) {
+        Cliente cliente = clienteRepository.findByCpf(cpf);
+
+        if (cliente != null) {
+            throw new BusinessException(SistemaMessageCode.ERRO_CPF_EM_USO);
+        }
     }
 
     private void retirarMascaraCpf(Cliente cliente) {
@@ -104,13 +149,13 @@ public class ClienteService {
 
 
     private Integer validarIdade(LocalDate date) {
-        int idade =0;
+        int idade = 0;
         if (!(date.equals(null))) {
             final LocalDate dataAtual = LocalDate.now();
             final Period periodo = Period.between(date, dataAtual);
-            idade= periodo.getYears();
+            idade = periodo.getYears();
         }
-        if(idade<18) {
+        if (idade < 18) {
             throw new BusinessException(SistemaMessageCode.ERRO_IDADE_NAO_PERMITIDA);
         }
         return null;

@@ -75,8 +75,8 @@ public enum SistemaMessageCode implements MessageCode {
 
     ERRO_IDADE_NAO_PERMITIDA("MSG-049", 400),
     ERRO_FORMATO_DATA_INCORRETO("MSG-050", 400),
-    ERRO_CPF_INVÁLIDO("MSG-051", 400),
-
+    ERRO_FORMATO_TELEFONE_INVALIDO("MSG-051", 400),
+    ERRO_STATUS_INVALIDO("MSG-052", 400),
 
     ;
 
