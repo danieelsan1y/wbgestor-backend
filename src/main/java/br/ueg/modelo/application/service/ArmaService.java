@@ -1,6 +1,7 @@
 package br.ueg.modelo.application.service;
 
 import br.ueg.modelo.application.enums.StatusArma;
+import br.ueg.modelo.application.exception.SistemaMessageCode;
 import br.ueg.modelo.application.model.Arma;
 import br.ueg.modelo.application.model.Cliente;
 import br.ueg.modelo.application.model.ModeloArma;
@@ -8,6 +9,9 @@ import br.ueg.modelo.application.model.Usuario;
 import br.ueg.modelo.application.repository.ArmaRepository;
 import br.ueg.modelo.application.repository.ClienteRepository;
 import br.ueg.modelo.application.repository.ModeloArmaRepository;
+import br.ueg.modelo.application.service.validate.ArmaValidate;
+import br.ueg.modelo.application.service.validate.ClienteValidate;
+import br.ueg.modelo.comum.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +31,14 @@ public class ArmaService {
     ClienteRepository clienteRepository;
 
     public void realizarEntrada(Arma arma, Long id) {
-        ModeloArma modeloArma = modeloArmaRepository.buscarPorId(id);
+        ArmaValidate.validarEntradaValoresNulos(arma,id);
+        ArmaValidate.validarEntradaValoresBrancos(arma);
+
+        verificarSerieExistente(arma.getSerie());
+
+        ModeloArma modeloArma = VerificarModeloNaoExistente(id);
+        arma.setCor(arma.getCor().toUpperCase());
+        arma.setSerie(arma.getSerie().toUpperCase());
         arma.setModeloArma(modeloArma);
         arma.setDataEntrada(LocalDate.now());
         arma.setStatus(StatusArma.DISPONIVEL);
@@ -36,11 +47,14 @@ public class ArmaService {
 
     public void trafegar(Long id, StatusArma statusArma, Long idCliente) {
         Arma armaAntiga = armaRepository.buscarPorId(id);
+        ArmaValidate.validarStatusArma(statusArma);
+
         armaAntiga.setStatus(statusArma);
-        Cliente cliente = clienteRepository.buscarPorId(idCliente);
+        Cliente cliente = verificarSeClienteEstaCadastrado(idCliente);
         armaAntiga.setCliente(cliente);
         armaRepository.save(armaAntiga);
     }
+
     public void realizarSaida(Long id) {
         Arma arma = armaRepository.buscarPorId(id);
         arma.setStatus(StatusArma.VENDIDO_E_RETIRADO);
@@ -50,7 +64,7 @@ public class ArmaService {
 
     public void atualizar(Arma arma, Long idArma, Long idCliente, Long idModeloArma) {
         Arma armaAntiga = armaRepository.buscarPorId(idArma);
-        alterarCampos(armaAntiga,arma, idCliente,idArma);
+        alterarCampos(armaAntiga, arma, idCliente, idArma);
         armaRepository.save(armaAntiga);
 
     }
@@ -58,7 +72,7 @@ public class ArmaService {
     private void alterarCampos(Arma armaAntiga, Arma arma, Long idCliente, Long idModeloArma) {
         Cliente cliente = clienteRepository.buscarPorId(idCliente);
         ModeloArma modeloArma = modeloArmaRepository.buscarPorId(idModeloArma);
-        if(arma.getStatus() == StatusArma.DISPONIVEL) {
+        if (arma.getStatus() == StatusArma.DISPONIVEL) {
             armaAntiga.setDataSaida(null);
         }
         armaAntiga.setModeloArma(modeloArma);
@@ -78,5 +92,31 @@ public class ArmaService {
 
     public List<Arma> buscarArmasVendidasEmEstoque() {
         return armaRepository.buscarArmasVendidasEmEstoque();
+    }
+
+
+
+    private Cliente verificarSeClienteEstaCadastrado(Long id) {
+        Cliente cliente = clienteRepository.buscarPorId(id);
+        if(cliente != null) {
+            return cliente;
+        } else {
+            throw new BusinessException(SistemaMessageCode.ERRO_CLIENTE_NAO_CADASTRADO);
+        }
+    }
+    private  void verificarSerieExistente(String serie) {
+        Arma arma = armaRepository.findArmaBySerie(serie);
+        if(arma != null) {
+            throw new BusinessException(SistemaMessageCode.ERRO_SERIE_CADASTRADA);
+        }
+    }
+    private ModeloArma VerificarModeloNaoExistente(Long id) {
+        ModeloArma modeloArma = modeloArmaRepository.buscarPorId(id);
+        if (modeloArma == null) {
+            throw new BusinessException(SistemaMessageCode.ERRO_MODELO_NAO_EXISTENTE);
+        } else {
+            return modeloArma;
+        }
+
     }
 }

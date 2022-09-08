@@ -17,4 +17,6 @@ public interface ArmaRepository extends JpaRepository<Arma,Long> {
     @Query("SELECT a FROM Arma a WHERE a.status = 1")
     public List<Arma> buscarArmasVendidasEmEstoque();
 
+    public Arma findArmaBySerie(String serie);
+
 }

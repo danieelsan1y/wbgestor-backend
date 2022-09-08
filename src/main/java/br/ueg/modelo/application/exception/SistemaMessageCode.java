@@ -78,6 +78,12 @@ public enum SistemaMessageCode implements MessageCode {
     ERRO_FORMATO_TELEFONE_INVALIDO("MSG-051", 400),
     ERRO_STATUS_INVALIDO("MSG-052", 400),
 
+    ERRO_SERIE_CADASTRADA("MSG-053", 400),
+
+    ERRO_CLIENTE_INATIVO("MSG-054", 400),
+
+    ERRO_CLIENTE_NAO_CADASTRADO("MSG-055", 400),
+
     ;
 
 
